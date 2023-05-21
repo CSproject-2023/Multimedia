@@ -29,6 +29,7 @@ public class LZW extends CompressionAlgorithm{
         counter=1;
         compressFile(true);
         super.closeFile();
+        System.out.println("Done");
     }
 
     private void compressDict() {
@@ -47,6 +48,7 @@ public class LZW extends CompressionAlgorithm{
         setDictionary();
         writeOutputFile();
         super.closeFile();
+        System.out.println("Done");
     }
     private void compressFile(boolean manageWrite){
         String s= "";
