@@ -4,8 +4,8 @@ import java.io.*;
 public abstract class CompressionAlgorithm {
     private File inputFile;
     private File outputFile;
-    private FileInputStream inputStream;
-    private FileOutputStream writer;
+    private DataInputStream inputStream;
+    private DataOutputStream writer;
 
     public CompressionAlgorithm(File inputFile){
         this.inputFile=inputFile;
@@ -35,8 +35,8 @@ public abstract class CompressionAlgorithm {
 
     protected void openFile(){
         try {
-            writer = new FileOutputStream(this.outputFile);
-            inputStream= new FileInputStream(this.inputFile);
+            writer = new DataOutputStream(new FileOutputStream(this.outputFile));
+            inputStream= new DataInputStream(new FileInputStream(this.inputFile));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -68,7 +68,7 @@ public abstract class CompressionAlgorithm {
     }
     protected int readInt(){
         try{
-            return this.inputStream.read();
+            return this.inputStream.readInt();
         }catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException();
@@ -77,7 +77,14 @@ public abstract class CompressionAlgorithm {
 
     protected void write(int code){
         try {
-            writer.write(code);
+            this.writer.writeInt(code);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    protected void write(String bytes){
+        try {
+            writer.writeBytes(bytes);
         }catch (Exception e){
             e.printStackTrace();
         }

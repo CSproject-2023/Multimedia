@@ -10,7 +10,7 @@ import java.util.Map;
 public class LZW extends CompressionAlgorithm{
 
     private HashMap<String,Integer> dictionary;
-    private HashMap<Integer,String> dictionaryDecompressor;
+    private HashMap<Integer,byte[]> dictionaryDecompressor;
 
     private int counter= 1;
     public LZW(File inputFile){
@@ -35,7 +35,7 @@ public class LZW extends CompressionAlgorithm{
         super.write(this.dictionary.size()); //First the size of the dictionary.
         for(Map.Entry<String,Integer> entry : this.dictionary.entrySet()){
             super.write(entry.getKey().length()); //size of string.
-            super.write(entry.getKey().getBytes(StandardCharsets.UTF_8));
+            super.write(entry.getKey());
             super.write(entry.getValue());//write code.
         }
     }
@@ -79,17 +79,15 @@ public class LZW extends CompressionAlgorithm{
         for(int i= 0;i<dictionarySize;i++){
             int numberOfBytesToRead= super.readInt();
             byte[] bytes=super.readByte(numberOfBytesToRead);
-            String s="";
-            for(byte x:bytes)s+=(char)x;
             int code= super.readInt();
-            this.dictionaryDecompressor.put(code,s);
+            this.dictionaryDecompressor.put(code,bytes);
         }
     }
 
     private void writeOutputFile(){
         while(!super.isEOF()){
             int current= super.readInt();
-            super.write(this.dictionaryDecompressor.get(current).getBytes(StandardCharsets.UTF_8));
+            super.write(this.dictionaryDecompressor.get(current));
         }
     }
 }
