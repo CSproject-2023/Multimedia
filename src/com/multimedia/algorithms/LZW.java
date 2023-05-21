@@ -10,6 +10,8 @@ import java.util.Map;
 public class LZW extends CompressionAlgorithm{
 
     private HashMap<String,Integer> dictionary;
+    private HashMap<Integer,String> dictionaryDecompressor;
+
     private int counter= 1;
     public LZW(File inputFile){
         super(inputFile);
@@ -22,6 +24,7 @@ public class LZW extends CompressionAlgorithm{
         compressFile(false);
         super.openFile();
         compressDict();
+        System.out.println(this.dictionary.size());
         this.dictionary=new HashMap<>();
         counter=1;
         compressFile(true);
@@ -39,7 +42,11 @@ public class LZW extends CompressionAlgorithm{
 
     @Override
     public void decompress() {
-
+        super.setOutputFile();
+        super.openFile();
+        setDictionary();
+        writeOutputFile();
+        super.closeFile();
     }
     private void compressFile(boolean manageWrite){
         String s= "";
@@ -64,5 +71,25 @@ public class LZW extends CompressionAlgorithm{
         }
         if (manageWrite)
             super.write(this.dictionary.get(s));
+    }
+
+    private void setDictionary(){
+        this.dictionaryDecompressor=new HashMap<>();
+        int dictionarySize= super.readInt();
+        for(int i= 0;i<dictionarySize;i++){
+            int numberOfBytesToRead= super.readInt();
+            byte[] bytes=super.readByte(numberOfBytesToRead);
+            String s="";
+            for(byte x:bytes)s+=(char)x;
+            int code= super.readInt();
+            this.dictionaryDecompressor.put(code,s);
+        }
+    }
+
+    private void writeOutputFile(){
+        while(!super.isEOF()){
+            int current= super.readInt();
+            super.write(this.dictionaryDecompressor.get(current).getBytes(StandardCharsets.UTF_8));
+        }
     }
 }

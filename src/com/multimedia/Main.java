@@ -10,7 +10,8 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        CompressionAlgorithm compressionAlgorithm=new LZW(new File("test.txt"));
-        compressionAlgorithm.compress();
+        CompressionAlgorithm compressionAlgorithm=new LZW(new File("test.txt.lzw"));
+        compressionAlgorithm.decompress();
+//        compressionAlgorithm.decompress();
     }
 }

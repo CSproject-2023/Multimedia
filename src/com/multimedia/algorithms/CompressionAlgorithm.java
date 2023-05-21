@@ -22,6 +22,17 @@ public abstract class CompressionAlgorithm {
         this.outputFile=new File(inputFile.getPath()+extension);
 //        System.out.println(file);
     }
+
+    /**
+     * Removes last extension only.
+     */
+    protected void setOutputFile(){
+        String[] extensionRemover= inputFile.getPath().split("[.]");
+        System.out.println(inputFile);
+        this.outputFile=new File(extensionRemover[0]+"."+extensionRemover[1]);
+        System.out.println(outputFile);
+    }
+
     protected void openFile(){
         try {
             writer = new FileOutputStream(this.outputFile);
@@ -38,9 +49,26 @@ public abstract class CompressionAlgorithm {
             throw new RuntimeException();
         }
     }
+
+    protected byte[] readByte(int length){
+        try{
+            return this.inputStream.readNBytes(length);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
     protected byte readByte(){
         try{
             return this.inputStream.readNBytes(1)[0];
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+    protected int readInt(){
+        try{
+            return this.inputStream.read();
         }catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException();
