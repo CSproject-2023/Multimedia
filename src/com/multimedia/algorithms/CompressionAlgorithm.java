@@ -108,4 +108,9 @@ public abstract class CompressionAlgorithm {
     public abstract void compress();
     public abstract  void decompress();
 
+    public float getCompressionRation(){
+        return outputFile.length()/inputFile.length();
+
+    }
+
 }

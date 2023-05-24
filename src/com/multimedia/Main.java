@@ -43,13 +43,17 @@ public class Main {
                     algorithm = new LZW(inputFile);
                 else if (huffmanButton.isSelected())
                     algorithm = new Huffman(inputFile);
-
-                if (compressButton.isSelected())
+                String message="";
+                if (compressButton.isSelected()){
                     algorithm.compress();
-                else
+                    message="Ratio is "+algorithm.getCompressionRation();
+                }
+                else{
                     algorithm.decompress();
+                    message="Decompressing done!";
+                }
 
-                messageLabel.setText("Done!");
+                messageLabel.setText(message);
                 messageLabel.setForeground(Color.GREEN);
             }
         }).start();
