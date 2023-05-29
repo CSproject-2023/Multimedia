@@ -29,6 +29,22 @@ public class Main {
 
     private static CompressionAlgorithm algorithm;
 
+
+    public static void main(String[] args) throws IOException {
+        frame = new JFrame("Multimedia Project");// creating instance of JFrame
+        windowHandler(frame);
+        handleFileChooser();
+        handleAlgorithms();
+        Font font = new Font("Arial", Font.BOLD + Font.ITALIC, 36);
+        messageLabel.setFont(font);
+        messageLabel.setForeground(Color.GREEN);
+        messageLabel.setBounds(250, 420, 300, 200);
+        messageLabel.setText("Nothing Yet!");
+        frame.add(messageLabel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null);// using no layout managers
+        frame.setVisible(true);// making the frame visible
+    }
     public static void submit() {
         messageLabel.setText("Processing");
         messageLabel.setForeground(Color.RED);
@@ -146,19 +162,5 @@ public class Main {
 
     }
 
-    public static void main(String[] args) throws IOException {
-        frame = new JFrame("Multimedia Project");// creating instance of JFrame
-        windowHandler(frame);
-        handleFileChooser();
-        handleAlgorithms();
-        Font font = new Font("Arial", Font.BOLD + Font.ITALIC, 36);
-        messageLabel.setFont(font);
-        messageLabel.setForeground(Color.GREEN);
-        messageLabel.setBounds(250, 420, 300, 200);
-        messageLabel.setText("Nothing Yet!");
-        frame.add(messageLabel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);// using no layout managers
-        frame.setVisible(true);// making the frame visible
-    }
+    
 }

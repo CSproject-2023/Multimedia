@@ -82,6 +82,16 @@ public abstract class CompressionAlgorithm {
             e.printStackTrace();
         }
     }
+
+    protected void writeByte(int length){
+        try {
+            if(length > Byte.MAX_VALUE)
+                throw new RuntimeException("Failed to compress, length = "+length);
+            writer.writeByte(length);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     protected void write(String bytes){
         try {
             writer.writeBytes(bytes);
@@ -108,7 +118,7 @@ public abstract class CompressionAlgorithm {
     public abstract void compress();
     public abstract  void decompress();
 
-    public float getCompressionRation(){
+    public double getCompressionRation(){
         return outputFile.length()/inputFile.length();
 
     }

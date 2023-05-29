@@ -35,7 +35,7 @@ public class LZW extends CompressionAlgorithm{
     private void compressDict() {
         super.write(this.dictionary.size()); //First the size of the dictionary.
         for(Map.Entry<String,Integer> entry : this.dictionary.entrySet()){
-            super.write(entry.getKey().length()); //size of string.
+            super.writeByte(entry.getKey().length()); //size of string.
             super.write(entry.getKey());
             super.write(entry.getValue());//write code.
         }
@@ -79,7 +79,7 @@ public class LZW extends CompressionAlgorithm{
         this.dictionaryDecompressor=new HashMap<>();
         int dictionarySize= super.readInt();
         for(int i= 0;i<dictionarySize;i++){
-            int numberOfBytesToRead= super.readInt();
+            int numberOfBytesToRead= super.readByte();
             byte[] bytes=super.readByte(numberOfBytesToRead);
             int code= super.readInt();
             this.dictionaryDecompressor.put(code,bytes);
