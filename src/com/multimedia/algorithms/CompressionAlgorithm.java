@@ -18,9 +18,16 @@ public abstract class CompressionAlgorithm {
         return this.outputFile;
     }
 
+    private void createOutputPathFile(File outputFile){
+        String parentPath=outputFile.getParent();
+        File outputDirectory=new File(parentPath+"/output");
+        outputDirectory.mkdir();
+        this.outputFile=new File(outputDirectory.getPath()+"/"+outputFile.getName());
+        System.out.println(this.outputFile);
+    }
     protected void setOutputFile(String extension){
-        this.outputFile=new File(inputFile.getPath()+extension);
-//        System.out.println(file);
+        createOutputPathFile(new File(inputFile.getPath()+extension));
+        // this.outputFile=new File(inputFile.getPath()+extension);
     }
 
     /**
@@ -30,6 +37,7 @@ public abstract class CompressionAlgorithm {
         String[] extensionRemover= inputFile.getPath().split("[.]");
         System.out.println(inputFile);
         this.outputFile=new File(extensionRemover[0]+"."+extensionRemover[1]);
+        createOutputPathFile(this.outputFile);
         System.out.println(outputFile);
     }
 
